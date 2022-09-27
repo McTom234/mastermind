@@ -1,7 +1,9 @@
-import { Server as IOServer } from 'socket.io';
+import { Server as IOServer, Socket } from 'socket.io';
+import { Game } from './Game';
 import { ClientToServerEvents, InterServerEvents, ServerToClientEvents, SocketData } from './SocketTypes';
 
 let server: IOServer<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>;
+const games: Map<String, Game> = new Map();
 
 export class Server {
 	private static instance: Server;
@@ -14,5 +16,51 @@ export class Server {
 	constructor (serverInst: IOServer<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>) {
 		server = serverInst;
 	}
+
+	public listener (socket: Socket<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>) {
+		socket.on('disconnect', () => {
+			console.log('disconnect')
+			if (socket.data.room) games.get(socket.data.room)?.removePlayer(socket);
+		});
+		socket.on('join room', (room, name) => {
+			console.log('join room')
+			if (socket.rooms.size !== 0) Array.from(socket.rooms).forEach(room => socket.leave(room));
+
+			let game;
+			if ((game = games.get(room))) { // rom exists
+				if (game.addPlayer(socket)) {
+					server.in(room).emit('player joined', name);
+					socket.join(room);
+					socket.data.room = room;
+					socket.data.name = name;
+
+					socket.emit('game data');
+				} else
+					socket.emit('room error'); // reject play event
+			} else { // room does not exist
+				// create room and game - let user choose role
+				games.set(room, new Game());
+				game = games.get(room)!;
+				game.addPlayer(socket);
+				socket.join(room);
+				socket.data.room = room;
+				socket.data.name = name;
+			}
+		});
+		socket.on('choose role', (role) => {
+			console.log('choose role')
+			if (socket.rooms.size === 0 ) return socket.emit('room error');
+
+			const game = games.get(socket.data.room!)!;
+			const otherRole = role === 'setter' ? 'guesser' : 'setter';
+
+			if (game.round().setRole(socket, role)) {
+				if (game.round()[ otherRole ] !== undefined) game.round()[otherRole]!.emit('role assignment', otherRole);
+			}
+			else {
+				if (game.round().setRole(socket, otherRole)) socket.emit('role assignment', otherRole);
+				else socket.emit("room error");
+			}
+		});
 	}
 }
