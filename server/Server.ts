@@ -3,11 +3,10 @@ import { Game } from './Game';
 import { Logger } from './Logger';
 import { ClientToServerEvents, InterServerEvents, ServerToClientEvents, SocketData } from './SocketTypes';
 
-let server: IOServer<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>;
-const games: Map<String, Game> = new Map();
-
 export class Server {
 	private static instance: Server;
+	private server: IOServer<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>;
+	private readonly games: Map<String, Game>;
 
 	public static getInstance (server: IOServer<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>): Server {
 		if (this.instance === undefined) this.instance = new Server(server);
@@ -15,7 +14,8 @@ export class Server {
 	}
 
 	constructor (serverInst: IOServer<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>) {
-		server = serverInst;
+		this.server = serverInst;
+		this.games = new Map();
 		Logger.info('Server instance created...')
 	}
 
@@ -24,8 +24,9 @@ export class Server {
 
 		socket.on('disconnect', () => {
 			Logger.silly('Client disconnected', socket.id)
-			if (socket.data.room) games.get(socket.data.room)?.removePlayer(socket);
+			if (socket.data.room) Server.instance.games.get(socket.data.room)?.removePlayer(socket);
 		});
+
 		socket.on('join room', (room, name) => {
 			if (room === null || room === undefined) {
 				Logger.error('Socket tried to connected without room in request data.')
@@ -34,9 +35,9 @@ export class Server {
 			if (socket.rooms.size !== 0) Array.from(socket.rooms).forEach(room => socket.leave(room));
 
 			let game;
-			if ((game = games.get(room))) { // rom exists
+			if ((game = Server.instance.games.get(room))) { // rom exists
 				if (game.addPlayer(socket)) {
-					server.in(room).emit('player joined', name);
+					Server.instance.server.in(room).emit('player joined', name);
 					Logger.info('Socket joins room', socket.id, room)
 					socket.join(room);
 					socket.data.room = room;
@@ -49,9 +50,9 @@ export class Server {
 				}
 			} else { // room does not exist
 				// create room and game - let user choose role
-				games.set(room, new Game());
-				game = games.get(room)!;
-				game.addPlayer(socket);
+				Logger.info('Create room ', room)
+				Server.instance.games.set(room, new Game());
+				game = Server.instance.games.get(room)!;
 				if (!game.addPlayer(socket)) {
 					Logger.error('Socket could not join room', socket.id, room)
 					socket.emit('room error'); // reject play event
@@ -63,10 +64,11 @@ export class Server {
 				socket.data.name = name;
 			}
 		});
+
 		socket.on('choose role', (role) => {
 			if (socket.rooms.size === 0) return socket.emit('room error');
 
-			const game = games.get(socket.data.room!)!;
+			const game = Server.instance.games.get(socket.data.room!)!;
 			const otherRole = role === 'setter' ? 'guesser' : 'setter';
 
 			if (game.round().setRole(socket, role)) {
