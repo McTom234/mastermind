@@ -2,6 +2,7 @@ import express, { Express } from 'express';
 import { createServer, Server as HttpServer } from 'http';
 import next, { NextApiHandler } from 'next';
 import { Server } from 'socket.io';
+import { Logger } from './Logger';
 import { Server as GameServer } from './Server';
 import { ClientToServerEvents, InterServerEvents, ServerToClientEvents, SocketData } from './SocketTypes';
 
@@ -21,6 +22,6 @@ nextApp.prepare().then(async() => {
 	app.all('*', (req: any, res: any) => nextHandler(req, res));
 
 	server.listen(port, () => {
-		console.log(`> Ready on http://localhost:${port}`);
+		Logger.info(`Ready on http://localhost:${port}`, `Dev mode: ${dev}`);
 	});
-}).catch(console.error);
+}).catch(Logger.fatal);
