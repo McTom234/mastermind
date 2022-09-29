@@ -2,7 +2,7 @@ import type { NextPage } from 'next';
 import Image from 'next/image';
 import Description from '../components/description';
 import Login from '../components/login';
-import styles from '../styles/Index.module.css';
+import styles from '../styles/Index.module.sass';
 
 const Index: NextPage = () => {
     return (
