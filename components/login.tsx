@@ -1,34 +1,30 @@
-import type { NextPage } from 'next'
+import type { NextPage } from 'next';
 import { useState } from 'react';
-import styles from '../styles/Index.module.css'
+import styles from '../styles/Index.module.css';
 
-type Props = {
-	playNowListener: (room: string, name: string) => void,
-	visible: boolean
-}
-
-const Login: NextPage<Props> = (props) => {
+const Login: NextPage = () => {
 	const [playAGame, setPlayAGame] = useState(false);
-	const showPlayAGame = () => setPlayAGame(true);
-
-	const [room, setRoom] = useState('');
-	const [name, setName] = useState('');
 
 	return (
-		<div className={styles.container} style={{ display: props.visible ? 'inherit' : 'none' }}>
-			<button onClick={showPlayAGame} style={{ display: playAGame ? 'none' : 'inherit' }}>Let us play a game!</button>
+		<div className={ styles.container }>
+			<button onClick={ () => setPlayAGame(true) }
+			        style={ { display: playAGame ? 'none' : 'inherit' } }>
+				Let us play a game!
+			</button>
 
-			<div style={{ display: playAGame ? 'inherit' : 'none' }}>
-				<label htmlFor={'room'}>Room Name:</label>
-				<input name={'room'} type={'text'} onChange={(e) => setRoom(e.target.value)} required id={'room'} />
+			<div style={ { display: playAGame ? 'inherit' : 'none' } }>
+				<form action={ '/play' } method={ 'GET' }>
+					<label htmlFor={ 'room' }>Room Name:</label>
+					<input name={ 'room' } type={ 'text' } id={ 'room' } required />
 
-				<label htmlFor={'player'}>Your Name:</label>
-				<input name={'player'} type={'text'} onChange={(e) => setName(e.target.value)} required id={'player'} />
+					<label htmlFor={ 'name' }>Your Name:</label>
+					<input name={ 'name' } type={ 'text' } id={ 'name' } required />
 
-				<button onClick={() => {props.playNowListener(room, name);}}>Play now!</button>
+					<button type={ 'submit' }>Play now!</button>
+				</form>
 			</div>
 		</div>
-	)
-}
+	);
+};
 
-export default Login
+export default Login;
