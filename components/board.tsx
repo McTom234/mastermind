@@ -6,6 +6,8 @@ import { ClientToServerEvents, ServerToClientEvents } from '../server/SocketType
 import SecretSlot from './secretSlot';
 import SlotList from './slotList';
 import VisibleContainer from './visibleContainer';
+import styles from '../styles/Board.module.sass';
+import secretSlotStyles from '../styles/SecretSlot.module.sass';
 
 const Board: NextPage<{ socket: Socket<ServerToClientEvents, ClientToServerEvents>, selectedColor?: PinColor }> = ({
 	socket,
@@ -13,12 +15,14 @@ const Board: NextPage<{ socket: Socket<ServerToClientEvents, ClientToServerEvent
 }) => {
 	const [setter, setSetter] = useState(false);
 
-	return (
-		<div className={ styles.container }>
-			<SlotList/>
+	socket.on('role assignment', (role) => setSetter(role === 'setter'));
 
-			<VisibleContainer visible={setter}>
-				<SecretSlot/>
+	return (
+		<div className={styles.container}>
+			<SlotList />
+
+			<VisibleContainer visible={ setter } className={secretSlotStyles.container}>
+				<SecretSlot />
 			</VisibleContainer>
 		</div>
 	);
