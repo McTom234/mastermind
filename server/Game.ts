@@ -8,7 +8,7 @@ export class Game {
 	public addPlayer (socket: Socket): boolean {
 		if (this.player1 === undefined && this.player2?.id !== socket.id) this.player1 = socket;
 		else if (this.player2 === undefined && this.player1?.id !== socket.id) this.player2 = socket;
-		else return false;
+		else return this.player1?.id !== socket.id || this.player2?.id !== socket.id;
 		return true;
 	}
 
