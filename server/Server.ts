@@ -73,7 +73,8 @@ export class Server {
 
 			if (game.round().setRole(socket, role)) {
 				socket.emit('role assignment', role);
-				if (game.round()[otherRole] !== undefined) game.round()[otherRole]!.emit('role assignment', otherRole);
+				if (game.player1 !== undefined && game.player1.id !== socket.id) game.player1.emit('role assignment', otherRole);
+				else if (game.player2 !== undefined && game.player2.id !== socket.id) game.player2.emit('role assignment', otherRole);
 			} else {
 				if (game.round().setRole(socket, otherRole)) socket.emit('role assignment', otherRole);
 				else socket.emit('room error');

@@ -6,12 +6,12 @@ import ColorSelector from '../components/colorSelector';
 import RoleSelector from '../components/roleSelector';
 import VisibleContainer from '../components/visibleContainer';
 import { PinColor } from '../server/Pin';
-import { ClientToServerEvents, ServerToClientEvents } from '../server/SocketTypes';
+import { ClientToServerEvents, Role, ServerToClientEvents } from '../server/SocketTypes';
 import styles from '../styles/Play.module.sass';
 
 const Play: NextPage = () => {
 	const [socket] = useState<Socket<ServerToClientEvents, ClientToServerEvents>>(io({ autoConnect: false }));
-	const [role, setRole] = useState<'setter' | 'guesser'>();
+	const [role, setRole] = useState<Role>();
 	const [selectedColor, selectColor] = useState<PinColor>();
 
 	useEffect(() => {
@@ -31,7 +31,7 @@ const Play: NextPage = () => {
 		socket.on('role assignment', setRole);
 	}, []);
 
-	const setRoleFeedback = (role: 'guesser' | 'setter') => {
+	const setRoleFeedback = (role: Role) => {
 		if (role === 'guesser' || role === 'setter') socket.emit('choose role', role);
 	};
 
@@ -40,8 +40,8 @@ const Play: NextPage = () => {
 			<VisibleContainer visible={ role === undefined }>
 				<RoleSelector setRole={ setRoleFeedback } />
 			</VisibleContainer>
-			<VisibleContainer visible={ role === 'setter' || role === 'guesser' } className={styles.fullHeight}>
-				<Board socket={ socket } selectedColor={ selectedColor } />
+			<VisibleContainer visible={ role !== undefined } className={styles.fullHeight}>
+				<Board socket={ socket } selectedColor={ selectedColor } role={role} />
 				<ColorSelector selectedColor={ selectedColor } selectColor={ selectColor } role={ role } />
 			</VisibleContainer>
 		</div>

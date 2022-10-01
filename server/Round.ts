@@ -2,8 +2,8 @@ import { Socket } from 'socket.io';
 import { Slot } from './Slot';
 
 export class Round {
-	setter?: Socket;
-	guesser?: Socket;
+	setter?: Socket = undefined;
+	guesser?: Socket = undefined;
 
 	hiddenSlot: Slot = new Slot();
 	publicSlots: Slot[] = [new Slot()];

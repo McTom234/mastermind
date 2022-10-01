@@ -16,5 +16,7 @@ export type InterServerEvents = {
 export type SocketData = {
 	room: string;
 	name: string;
-	role: 'setter' | 'guesser'
+	role: Role
 }
+
+export type Role = 'guesser' | 'setter';
