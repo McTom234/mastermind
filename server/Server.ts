@@ -16,20 +16,20 @@ export class Server {
 	constructor (serverInst: IOServer<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>) {
 		this.server = serverInst;
 		this.games = new Map();
-		Logger.info('Server instance created...')
+		Logger.getLogger().info('Server instance created...');
 	}
 
 	public listener (socket: Socket<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>) {
-		Logger.silly('Client connected', socket.id)
+		Logger.getLogger().silly('Client connected', socket.id);
 
 		socket.on('disconnect', () => {
-			Logger.silly('Client disconnected', socket.id)
+			Logger.getLogger().silly('Client disconnected', socket.id);
 			if (socket.data.room) Server.instance.games.get(socket.data.room)?.removePlayer(socket);
 		});
 
 		socket.on('join room', (room, name) => {
 			if (room === null || room === undefined) {
-				Logger.error('Socket tried to connected without room in request data.')
+				Logger.getLogger().error('Socket tried to connected without room in request data.');
 				return socket.emit('room error');
 			}
 			if (socket.rooms.size !== 0) Array.from(socket.rooms).forEach(room => socket.leave(room));
@@ -38,27 +38,27 @@ export class Server {
 			if ((game = Server.instance.games.get(room))) { // rom exists
 				if (game.addPlayer(socket)) {
 					Server.instance.server.in(room).emit('player joined', name);
-					Logger.info('Socket joins room', socket.id, room)
+					Logger.getLogger().info('Socket joins room', socket.id, room);
 					socket.join(room);
 					socket.data.room = room;
 					socket.data.name = name;
 
-					socket.emit('game data');
+					socket.emit('game data', game.getSanitizedGame(socket));
 				} else {
-					Logger.error('Socket could not join room', socket.id, room)
+					Logger.getLogger().error('Socket could not join room', socket.id, room);
 					socket.emit('room error'); // reject play event
 				}
 			} else { // room does not exist
 				// create room and game - let user choose role
-				Logger.info('Create room ', room)
+				Logger.getLogger().info('Create room ', room);
 				Server.instance.games.set(room, new Game());
 				game = Server.instance.games.get(room)!;
 				if (!game.addPlayer(socket)) {
-					Logger.error('Socket could not join room', socket.id, room)
+					Logger.getLogger().error('Socket could not join room', socket.id, room);
 					socket.emit('room error'); // reject play event
 					return;
 				}
-				Logger.info('Socket joins room', socket.id, room)
+				Logger.getLogger().info('Socket joins room', socket.id, room);
 				socket.join(room);
 				socket.data.room = room;
 				socket.data.name = name;

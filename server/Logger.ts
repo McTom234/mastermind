@@ -48,7 +48,7 @@ export class Logger extends tsLog.Logger {
 		});
 	}
 
-	private static getLogger() {
+	public static getLogger() {
 		if (this.instance == null) this.instance = new Logger();
 		return this.instance;
 	}
@@ -70,33 +70,5 @@ export class Logger extends tsLog.Logger {
 			Logger.getFileLogger().printPrettyLog(stream, logObject);
 			stream.close();
 		}
-	}
-
-	public static silly(...args: any[]) {
-		Logger.getLogger().silly(...args);
-	}
-
-	public static trace(...args: any[]) {
-		Logger.getLogger().trace(...args);
-	}
-
-	public static debug(...args: any[]) {
-		Logger.getLogger().debug(...args);
-	}
-
-	public static info(...args: any[]) {
-		Logger.getLogger().info(...args);
-	}
-
-	public static warn(...args: any[]) {
-		Logger.getLogger().warn(...args);
-	}
-
-	public static error(...args: any[]) {
-		Logger.getLogger().error(...args);
-	}
-
-	public static fatal(...args: any[]) {
-		Logger.getLogger().fatal(...args);
 	}
 }

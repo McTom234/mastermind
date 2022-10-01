@@ -22,6 +22,6 @@ nextApp.prepare().then(async() => {
 	app.all('*', (req: any, res: any) => nextHandler(req, res));
 
 	server.listen(port, () => {
-		Logger.info(`Ready on http://localhost:${port}`, `Dev mode: ${dev}`);
+		Logger.getLogger().info(`Ready on http://localhost:${port}`, `Dev mode: ${dev}`);
 	});
-}).catch(Logger.fatal);
+}).catch(Logger.getLogger().fatal);
