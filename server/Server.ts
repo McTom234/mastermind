@@ -1,19 +1,20 @@
-import { Server as IOServer, Socket } from 'socket.io';
-import { Game } from './Game';
+import { Server as IOServer, Socket as SocketPreset } from 'socket.io';
 import { Logger } from './Logger';
-import { ClientToServerEvents, InterServerEvents, ServerToClientEvents, SocketData } from './SocketTypes';
+import { ClientGame, Game } from './models/Game';
+import { FeedbackPinColor, PinColor } from './models/Pin';
+import { Slot } from './models/Slot';
+import { ClientToServerEvents, InterServerEvents, Roles, ServerToClientEvents, SocketData } from './SocketTypes';
+
+export type Socket = SocketPreset<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>;
+
+export type ServerWithEvents = IOServer<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>;
 
 export class Server {
 	private static instance: Server;
-	private server: IOServer<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>;
+	readonly server: ServerWithEvents;
 	private readonly games: Map<String, Game>;
 
-	public static getInstance (server: IOServer<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>): Server {
-		if (this.instance === undefined) this.instance = new Server(server);
-		return this.instance;
-	}
-
-	constructor (serverInst: IOServer<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>) {
+	constructor (serverInst: ServerWithEvents) {
 		this.server = serverInst;
 		this.games = new Map();
 		Logger.getLogger().info('Server instance created...');
