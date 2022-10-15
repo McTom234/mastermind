@@ -1,18 +1,22 @@
-import type { NextPage } from 'next'
+import type { NextPage } from 'next';
 import { ReactNode } from 'react';
+import styles from '../styles/VisibleContainer.module.sass';
 
 type Props = {
 	visible: boolean
 	className?: string
 	children: ReactNode
+	onClick?: (...a: any) => any
 }
 
 const VisibleContainer: NextPage<Props> = (props) => {
-	return (
-		<div className={props.className} style={{ display: props.visible ? 'inherit' : 'none' }}>
-			{props.children}
-		</div>
-	)
-}
+	const className = !props.visible ? (props.className ? ' ' : '') + styles.hidden : '';
 
-export default VisibleContainer
+	return (
+		<div className={ `${ props.className ?? '' }${ className }` } onClick={ props.onClick }>
+			{ props.children }
+		</div>
+	);
+};
+
+export default VisibleContainer;

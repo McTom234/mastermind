@@ -1,12 +1,11 @@
 import type { NextPage } from 'next';
 import { useState } from 'react';
-import styles from '../styles/Index.module.css';
 
 const Login: NextPage = () => {
 	const [playAGame, setPlayAGame] = useState(false);
 
 	return (
-		<div className={ styles.container }>
+		<div>
 			<button onClick={ () => setPlayAGame(true) }
 			        style={ { display: playAGame ? 'none' : 'inherit' } }>
 				Let us play a game!
