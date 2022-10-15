@@ -20,9 +20,9 @@ const FeedbackSlot: NextPage<FeedbackSlotPropsTypes> = (props) => {
 	return (
 		<div className={ styles.container }>
 			<Slot slot={ props.slot } setPinCallback={ props.setPinCallback } editable={ editable } />
-			<div className={ `${ slotStyles.container } ${ styles.feedbackContainer } ${ pinStyles.feedbackPins }` }>
+			<div className={ `${ slotStyles.container } ${ styles.feedbackContainer } ${ pinStyles.feedbackPin }` }>
 				<Pin selectable={ selectable } onClick={ () => props.setFeedbackPinCallback(1) }
-				     initialColor={ props.slot.feedback.pin1.color } />
+				     initialColor={ props.slot.feedback.pin1.color } colorStyle={ pinStyles.feedbackColor } />
 				<Pin selectable={ selectable } onClick={ () => props.setFeedbackPinCallback(2) }
 				     initialColor={ props.slot.feedback.pin2.color } />
 				<Pin selectable={ selectable } onClick={ () => props.setFeedbackPinCallback(3) }

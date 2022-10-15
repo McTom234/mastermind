@@ -6,7 +6,8 @@ import Color from './color';
 type PinPropsTypes = {
 	onClick: () => PinColor | undefined,
 	selectable: boolean,
-	initialColor?: PinColor
+	initialColor?: PinColor,
+	colorStyle?: string
 }
 
 const Pin: NextPage<PinPropsTypes> = (props) => {
@@ -14,7 +15,7 @@ const Pin: NextPage<PinPropsTypes> = (props) => {
 	return (
 		<div onClick={ () => { if (!noSelect) props.onClick(); } }
 		     className={ `${ styles.container } ${ noSelect ? styles.noSelect : '' }` }>
-			<Color value={ props.initialColor } selectable={ props.selectable } />
+			<Color value={ props.initialColor } selectable={ props.selectable } classNames={ props.colorStyle } />
 		</div>
 	);
 };

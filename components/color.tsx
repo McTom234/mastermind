@@ -15,7 +15,7 @@ type ColorTypes = {
 const Color: NextPage<ColorTypes> = (props) => {
 	const noSelect = props.selectable !== undefined && !props.selectable;
 	if (props.value !== undefined) return (
-		<div className={ `${ styles.colorSelectorButton } ${ noSelect ? styles.noSelect : '' } ${ props.classNames }` }
+		<div className={ `${ styles.colorSelectorButton } ${ noSelect ? styles.noSelect : '' } ${ props.classNames ?? '' }` }
 		     onClick={ () => { if (!noSelect && props.onClick) props.onClick();} }
 		     data-selcted={ props.selectedColor === props.value }
 		     style={ { backgroundColor: props.value, ...props.style } } />
