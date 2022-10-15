@@ -1,0 +1,37 @@
+import type { NextPage } from 'next';
+import { PinColor } from '../server/models/Pin';
+import { Slot as SlotModel } from '../server/models/Slot';
+import styles from '../styles/FeedbackSlot.module.sass';
+import pinStyles from '../styles/Pin.module.sass';
+import slotStyles from '../styles/Slot.module.sass';
+import Pin from './pin';
+import Slot from './slot';
+
+type FeedbackSlotPropsTypes = {
+	slot: SlotModel,
+	setPinCallback: (pin: 1 | 2 | 3 | 4) => PinColor | undefined,
+	setFeedbackPinCallback: (pin: 1 | 2 | 3 | 4) => PinColor | undefined,
+	editable: boolean
+}
+
+const FeedbackSlot: NextPage<FeedbackSlotPropsTypes> = (props) => {
+	const editable = props.slot.setPins && props.editable;
+	const selectable = props.slot.setFeedback && !props.editable;
+	return (
+		<div className={ styles.container }>
+			<Slot slot={ props.slot } setPinCallback={ props.setPinCallback } editable={ editable } />
+			<div className={ `${ slotStyles.container } ${ styles.feedbackContainer } ${ pinStyles.feedbackPins }` }>
+				<Pin selectable={ selectable } onClick={ () => props.setFeedbackPinCallback(1) }
+				     initialColor={ props.slot.feedback.pin1.color } />
+				<Pin selectable={ selectable } onClick={ () => props.setFeedbackPinCallback(2) }
+				     initialColor={ props.slot.feedback.pin2.color } />
+				<Pin selectable={ selectable } onClick={ () => props.setFeedbackPinCallback(3) }
+				     initialColor={ props.slot.feedback.pin3.color } />
+				<Pin selectable={ selectable } onClick={ () => props.setFeedbackPinCallback(4) }
+				     initialColor={ props.slot.feedback.pin4.color } />
+			</div>
+		</div>
+	);
+};
+
+export default FeedbackSlot;

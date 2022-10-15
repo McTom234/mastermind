@@ -8,7 +8,7 @@ export class Logger extends tsLog.Logger {
 	private static fileName: string;
 	private static logLevel: number;
 
-	private constructor() {
+	private constructor () {
 		super({
 			dateTimeTimezone: 'Europe/Berlin',
 			minLevel: 'silly'
@@ -35,7 +35,7 @@ export class Logger extends tsLog.Logger {
 		const minute = (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
 		const second = (date.getSeconds() < 10 ? '0' : '') + date.getSeconds();
 
-		Logger.fileName = `${year}-${month}-${day}_${hour}-${minute}-${second}_mastermind.log`;
+		Logger.fileName = `${ year }-${ month }-${ day }_${ hour }-${ minute }-${ second }_mastermind.log`;
 
 		this.attachTransport({
 			silly: Logger.logToFile,
@@ -48,20 +48,20 @@ export class Logger extends tsLog.Logger {
 		});
 	}
 
-	private static getLogger() {
+	public static getLogger () {
 		if (this.instance == null) this.instance = new Logger();
 		return this.instance;
 	}
 
-	private static getFileLogger() {
+	private static getFileLogger () {
 		if (this.fileLoggerInstance == null) {
 			this.fileLoggerInstance = new this();
-			this.fileLoggerInstance.setSettings({colorizePrettyLogs: false})
+			this.fileLoggerInstance.setSettings({ colorizePrettyLogs: false });
 		}
 		return this.fileLoggerInstance;
 	}
 
-	private static logToFile(logObject: tsLog.ILogObject) {
+	private static logToFile (logObject: tsLog.ILogObject) {
 		if (logObject.logLevelId >= Logger.logLevel) {
 			const stream = createWriteStream(join(process.cwd(), 'logs', Logger.fileName), {
 				flags: 'a',
@@ -70,33 +70,5 @@ export class Logger extends tsLog.Logger {
 			Logger.getFileLogger().printPrettyLog(stream, logObject);
 			stream.close();
 		}
-	}
-
-	public static silly(...args: any[]) {
-		Logger.getLogger().silly(...args);
-	}
-
-	public static trace(...args: any[]) {
-		Logger.getLogger().trace(...args);
-	}
-
-	public static debug(...args: any[]) {
-		Logger.getLogger().debug(...args);
-	}
-
-	public static info(...args: any[]) {
-		Logger.getLogger().info(...args);
-	}
-
-	public static warn(...args: any[]) {
-		Logger.getLogger().warn(...args);
-	}
-
-	public static error(...args: any[]) {
-		Logger.getLogger().error(...args);
-	}
-
-	public static fatal(...args: any[]) {
-		Logger.getLogger().fatal(...args);
 	}
 }

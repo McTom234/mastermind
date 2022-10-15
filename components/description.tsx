@@ -1,10 +1,9 @@
 import type { NextPage } from 'next';
-import styles from '../styles/Index.module.css';
 
 const Description: NextPage = () => {
 	return (
-		<div className={ styles.container }>
-			<h1>MasterMind</h1>
+		<div>
+			<h1 style={ { marginTop: 0 } }>MasterMind</h1>
 			<p>
 				MasterMind is a famous two player game. The game consists of a game board with slots for colored pins.
 				These colored pins are available in eight different colors:{ ' ' }
