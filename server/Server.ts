@@ -192,7 +192,7 @@ export class Server {
 				return;
 			}
 		} else if (socket.id === game.round().setter?.id) {
-			if (game.round().publicSlot().setFeedback && game.round().publicSlot().feedback.pinsDefined()) {
+			if (game.round().publicSlot().setFeedback) {
 				game.round().publicSlot().setFeedback = false;
 				game.round().publicSlots.push(new Slot());
 			} else if (game.round().hiddenSlot.setPins && game.round().hiddenSlot.pinsDefined()) {
