@@ -45,7 +45,7 @@ const Play: NextPage = () => {
 		// canFinish
 		if (role === Roles.GUESSER && slot !== undefined && pinsDefined(slot) && slot.setPins) canFinish.current = true;
 		else if (role === Roles.SETTER) {
-			if (slot !== undefined && pinsDefined(slot.feedback) && slot.setFeedback) canFinish.current = true;
+			if (slot !== undefined && slot.setFeedback) canFinish.current = true;
 			else canFinish.current = hiddenSlot !== undefined && pinsDefined(hiddenSlot) && hiddenSlot.setPins;
 		} else canFinish.current = false;
 	} else {

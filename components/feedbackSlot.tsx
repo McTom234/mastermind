@@ -24,11 +24,11 @@ const FeedbackSlot: NextPage<FeedbackSlotPropsTypes> = (props) => {
 				<Pin selectable={ selectable } onClick={ () => props.setFeedbackPinCallback(1) }
 				     initialColor={ props.slot.feedback.pin1.color } colorStyle={ pinStyles.feedbackColor } />
 				<Pin selectable={ selectable } onClick={ () => props.setFeedbackPinCallback(2) }
-				     initialColor={ props.slot.feedback.pin2.color } />
+				     initialColor={ props.slot.feedback.pin2.color } colorStyle={ pinStyles.feedbackColor } />
 				<Pin selectable={ selectable } onClick={ () => props.setFeedbackPinCallback(3) }
-				     initialColor={ props.slot.feedback.pin3.color } />
+				     initialColor={ props.slot.feedback.pin3.color } colorStyle={ pinStyles.feedbackColor } />
 				<Pin selectable={ selectable } onClick={ () => props.setFeedbackPinCallback(4) }
-				     initialColor={ props.slot.feedback.pin4.color } />
+				     initialColor={ props.slot.feedback.pin4.color } colorStyle={ pinStyles.feedbackColor } />
 			</div>
 		</div>
 	);
