@@ -7,6 +7,7 @@
     "next-build": "next build",
     "next-start": "next start",
     "next-lint": "next lint",
+    "server-build": "tsc -p server",
     "start": "tsc -p server && node server/dist/express.js",
     "prod-win": "SET NODE_ENV=production && npm run next-build && npm run start",
     "dev-win": "SET NODE_ENV=development && npm run start"
