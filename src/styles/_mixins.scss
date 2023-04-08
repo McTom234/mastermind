@@ -1,0 +1,5 @@
+@use 'variables';
+
+@mixin box-shadow() {
+  box-shadow: -2px 2px 0 0 variables.$dark;
+}
