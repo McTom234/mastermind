@@ -1,7 +1,8 @@
 import JoinPageLayout from 'layouts/JoinPageLayout';
-import Input from 'components/new/Input';
-import Button from 'components/new/Button';
-import styles from 'styles/new/components/button.module.scss';
+import Input from 'components/new/atoms/Input';
+import Button from 'components/new/atoms/Button';
+import buttonStyles from 'styles/new/components/button.module.scss';
+import inputStyles from 'styles/new/components/input.module.scss';
 import { NextPageWithLayout } from 'pages/_app';
 import { ReactElement } from 'react';
 import { useRouter } from 'next/router';
@@ -25,8 +26,8 @@ const JoinPage: NextPageWithLayout = () => {
     <form action={'/play'}>
       <input type={'hidden'} name={'room'} defaultValue={room} />
       <Input label="Raum" icon={<EditLink />} defaultValue={room} disabled />
-      <Input label="Name" name={'name'} containerClass={styles['second-button']} />
-      <div className={styles['button-row']}>
+      <Input label="Name" name={'name'} containerClass={inputStyles['second-input']} />
+      <div className={buttonStyles['button-row']}>
         <Button type={'submit'}>Namen wählen</Button>
       </div>
     </form>

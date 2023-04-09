@@ -7,7 +7,7 @@ import { io, Socket } from 'socket.io-client';
 import Board from 'components/board';
 import ColorSelector from 'components/colorSelector';
 import { currentPublicSlotOfGame, currentRoundOfGame, pinsDefined } from 'components/helpers';
-import RoleSelector from 'components/roleSelector';
+import RoleSelector from 'components/new/RoleSelector';
 import { ClientGame } from 'server/models/Game';
 import { PinColor } from 'server/models/Pin';
 import { ClientToServerEvents, Roles, ServerToClientEvents } from 'server/SocketTypes';
@@ -26,6 +26,7 @@ const Play: NextPage = () => {
   const [game, setGame] = useState<ClientGame>();
 
   // client related vars
+  const [roleSelection, setRoleSelection] = useState(true);
   const [selectedColor, selectColor] = useState<PinColor>();
   let editable = useRef(false);
   let canFinish = useRef(false);
@@ -94,7 +95,10 @@ const Play: NextPage = () => {
   }, [query]);
 
   function setRoleCallback(role: Roles) {
-    if (role === Roles.GUESSER || role === Roles.SETTER) socket.emit('choose role', role);
+    if (role === Roles.GUESSER || role === Roles.SETTER) {
+      setRoleSelection(false);
+      socket.emit('choose role', role);
+    }
   }
 
   function setPinCallback(pin: 1 | 2 | 3 | 4) {
@@ -160,8 +164,10 @@ const Play: NextPage = () => {
             />
           </ColorSelector>
         </>
-      ) : (
+      ) : roleSelection ? (
         <RoleSelector setRole={setRoleCallback} />
+      ) : (
+        <p>Waiting for Server...</p>
       )}
     </div>
   );

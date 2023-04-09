@@ -6,13 +6,13 @@
   justify-content: space-between;
   margin-top: 10px;
 
+  .container.second-button {
+    margin-left: 18px;
+  }
+
   button {
     flex-grow: 1;
   }
-}
-
-.second-button {
-  margin-top: 6px;
 }
 
 .container {
@@ -63,6 +63,17 @@
       &::after {
         translate: -2px 2px;
       }
+    }
+  }
+}
+
+@media (max-width: 450px) {
+  .button-row {
+    flex-direction: column;
+
+    .container.second-button {
+      margin-top: 10px;
+      margin-left: 0;
     }
   }
 }
