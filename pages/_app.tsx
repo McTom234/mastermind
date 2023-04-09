@@ -24,7 +24,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   return (
     <div className={cn(font.className, 'next-root')}>
       <Head>
-        <title>MasterMind online multiplayer</title>
+        <title>Mastermind</title>
         <meta name="description" content="Famous game mastermind online as multiplayer edition" />
       </Head>
       {getLayout(<Component {...pageProps} />)}
