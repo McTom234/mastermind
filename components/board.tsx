@@ -7,31 +7,31 @@ import slotStyles from '../styles/Slot.module.sass';
 import { currentRoundOfGame } from './helpers';
 import Slot from './slot';
 import SlotList from './slotList';
-import VisibleContainer from './visibleContainer';
+import { cn } from '../lib/helpers';
 
 type BoardPropsTypes = {
-	game?: ClientGame,
-	role?: Roles,
-	setPinCallback: (pin: 1 | 2 | 3 | 4) => PinColor | undefined,
-	setSecretCallback: (pin: 1 | 2 | 3 | 4) => PinColor | undefined,
-	setFeedbackCallback: (pin: 1 | 2 | 3 | 4) => PinColor | undefined,
-}
+  game?: ClientGame;
+  role?: Roles;
+  setPinCallback: (pin: 1 | 2 | 3 | 4) => PinColor | undefined;
+  setSecretCallback: (pin: 1 | 2 | 3 | 4) => PinColor | undefined;
+  setFeedbackCallback: (pin: 1 | 2 | 3 | 4) => PinColor | undefined;
+};
 
 const Board: NextPage<BoardPropsTypes> = (props) => {
-	return (
-		<div className={ styles.container }>
-			<SlotList game={ props.game } role={ props.role } setPinCallback={ props.setPinCallback }
-			          setFeedbackPinCallback={ props.setFeedbackCallback } />
+  return (
+    <div className={styles.container}>
+      <SlotList game={props.game} role={props.role} setPinCallback={props.setPinCallback} setFeedbackPinCallback={props.setFeedbackCallback} />
 
-			<VisibleContainer
-				visible={ props.game !== undefined && currentRoundOfGame(props.game).hiddenSlot !== undefined }
-				className={ styles.secretSlotContainer }>
-				<Slot className={ slotStyles.hidden } setPinCallback={ props.setSecretCallback }
-				      slot={ props.game !== undefined ? currentRoundOfGame(props.game).hiddenSlot! : undefined }
-				      editable={ props.role === Roles.SETTER } />
-			</VisibleContainer>
-		</div>
-	);
+      {props.game !== undefined && currentRoundOfGame(props.game).hiddenSlot !== undefined && (
+        <Slot
+          className={cn(slotStyles.hidden, styles.secretSlotContainer)}
+          setPinCallback={props.setSecretCallback}
+          slot={props.game !== undefined ? currentRoundOfGame(props.game).hiddenSlot! : undefined}
+          editable={props.role === Roles.SETTER}
+        />
+      )}
+    </div>
+  );
 };
 
 export default Board;
