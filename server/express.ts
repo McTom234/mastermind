@@ -1,9 +1,14 @@
+// noinspection ES6PreferShortImport
+
+import * as dotenv from 'dotenv';
 import express, { Request, Response } from 'express';
 import { createServer } from 'http';
 import next from 'next';
 import { Server } from 'socket.io';
 import { Logger } from './Logger';
-import { Server as GameServer, ServerWithEvents } from 'server/Server';
+import { Server as GameServer, ServerWithEvents } from './Server';
+
+dotenv.config();
 
 const port = parseInt(process.env.PORT || '3000', 10);
 const dev = process.env.ENV?.trim() !== 'production';

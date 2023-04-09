@@ -1,3 +1,5 @@
+// noinspection ES6PreferShortImport
+
 import { Server as IOServer, Socket as SocketPreset } from 'socket.io';
 import { Logger } from './Logger';
 import { ClientGame, Game } from './models/Game';
@@ -73,20 +75,22 @@ export class Server {
       new Logger().info('Create room', room);
       game = new Game();
       Server.instance.games.set(room, game);
-    } else if (round.setter !== undefined) {
+    } else if (round && round.setter !== undefined) {
       if (!round.setRole(socket, Roles.GUESSER)) return failJoin();
 
       // player joins room with role
       socket.emit('role assignment', Roles.GUESSER);
 
       round.setter.emit('player joined', name);
-    } else if (round.guesser !== undefined) {
+    } else if (round && round.guesser !== undefined) {
       if (!round.setRole(socket, Roles.SETTER)) return failJoin();
 
       // player joins room with role
       socket.emit('role assignment', Roles.SETTER);
 
       round.guesser.emit('player joined', name);
+    } else {
+      socket.emit('room error')
     }
 
     // player joins room
@@ -110,10 +114,12 @@ export class Server {
     const otherRole = role === Roles.SETTER ? Roles.GUESSER : Roles.SETTER;
     const round = game.round();
 
+    const otherSocket = round[otherRole];
+
     if (round.setRole(socket, role)) {
       socket.emit('role assignment', role);
-      if (round[otherRole] !== undefined && round[otherRole].id === socket.id) round[otherRole] = undefined;
-      else if (round[otherRole] === undefined) {
+      if (otherSocket && otherSocket.id === socket.id) round[otherRole] = undefined;
+      else if (!otherSocket) {
         const room = Server.instance.server.sockets.adapter.rooms.get(socket.data.room);
 
         if (room !== undefined && room.size === 2) {
@@ -133,7 +139,7 @@ export class Server {
 
     // send client game data
     socket.emit('game data', ClientGame.fromGame(game, socket.id));
-    if (round[otherRole] !== undefined) round[otherRole].emit('game data', ClientGame.fromGame(game, round[otherRole].id));
+    if (otherSocket) otherSocket.emit('game data', ClientGame.fromGame(game, otherSocket.id));
   }
 
   private setPin(socket: Socket, prohibitedRole: Roles) {
@@ -222,7 +228,9 @@ export class Server {
       }
     }
 
-    if (game.round().setter !== undefined) game.round().setter.emit('game data', ClientGame.fromGame(game, game.round().setter.id));
-    if (game.round().guesser !== undefined) game.round().guesser.emit('game data', ClientGame.fromGame(game, game.round().guesser.id));
+    const setter = game.round().setter;
+    const guesser = game.round().guesser;
+    if (setter) setter.emit('game data', ClientGame.fromGame(game, setter.id));
+    if (guesser !== undefined) guesser.emit('game data', ClientGame.fromGame(game, guesser.id));
   }
 }

@@ -1,4 +1,6 @@
-import { ClientRound, Round } from 'server/models/Round';
+// noinspection ES6PreferShortImport
+
+import { ClientRound, Round } from '../models/Round';
 
 export class Game {
   rounds: Round[] = [new Round()];

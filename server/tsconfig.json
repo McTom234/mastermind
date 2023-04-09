@@ -17,8 +17,7 @@
     "isolatedModules": true,
     "incremental": true,
     "inlineSourceMap": true,
-    "outDir": "./dist",
-    "baseUrl": "../"
+    "outDir": "./dist"
   },
   "include": [
     "**/*.ts"

@@ -1,4 +1,6 @@
-import { FeedbackPinColor, Pin } from 'server/models/Pin';
+// noinspection ES6PreferShortImport
+
+import { FeedbackPinColor, Pin } from '../models/Pin';
 
 export class Feedback {
   pin1: Pin<FeedbackPinColor> = new Pin<FeedbackPinColor>();

@@ -1,3 +1,5 @@
+// noinspection ES6PreferShortImport
+
 import { ClientGame } from './models/Game';
 import { FeedbackPinColor, PinColor } from './models/Pin';
 

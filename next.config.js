@@ -13,4 +13,4 @@ if (process.env.ENV === 'development') {
   });
 }
 
-export default nextConfig;
+module.exports = nextConfig;
