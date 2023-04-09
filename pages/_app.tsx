@@ -1,6 +1,11 @@
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import '../styles/globals.scss';
+import {Nunito} from "next/font/google";
+
+const font = Nunito({
+	subsets: ['latin']
+})
 
 function MyApp ({
 	Component,
