@@ -1,5 +1,5 @@
 import React, { ForwardedRef, forwardRef, HTMLProps, ReactNode } from 'react';
-import styles from 'styles/new/components/input.module.scss';
+import styles from 'styles/new/components/atoms/input.module.scss';
 import { cn } from 'lib/helpers';
 
 interface InputProps extends HTMLProps<HTMLInputElement> {

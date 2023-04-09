@@ -1,5 +1,5 @@
 import { ForwardedRef, forwardRef, HTMLProps } from 'react';
-import styles from 'styles/new/components/button.module.scss';
+import styles from 'styles/new/components/atoms/button.module.scss';
 import { cn } from 'lib/helpers';
 
 interface ButtonProps extends HTMLProps<HTMLButtonElement> {

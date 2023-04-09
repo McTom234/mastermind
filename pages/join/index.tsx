@@ -1,7 +1,7 @@
 import JoinPageLayout from 'layouts/JoinPageLayout';
 import Input from 'components/new/atoms/Input';
 import Button from 'components/new/atoms/Button';
-import styles from 'styles/new/components/button.module.scss';
+import styles from 'styles/new/components/atoms/button.module.scss';
 import { NextPageWithLayout } from 'pages/_app';
 import { ReactElement, useRef } from 'react';
 import { useRouter } from 'next/router';
