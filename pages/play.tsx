@@ -1,16 +1,17 @@
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import type { NextPage } from 'next';
-import { useRouter } from 'next/router';
-import { useEffect, useRef, useState } from 'react';
-import { io, Socket } from 'socket.io-client';
 import Board from 'components/board';
 import ColorSelector from 'components/colorSelector';
 import { currentPublicSlotOfGame, currentRoundOfGame, pinsDefined } from 'components/helpers';
+import LoadingScreen from 'components/new/LoadingScreen';
 import RoleSelector from 'components/new/RoleSelector';
+import type { NextPage } from 'next';
+import { useRouter } from 'next/router';
+import { useEffect, useRef, useState } from 'react';
 import { ClientGame } from 'server/models/Game';
 import { PinColor } from 'server/models/Pin';
 import { ClientToServerEvents, Roles, ServerToClientEvents } from 'server/SocketTypes';
+import { io, Socket } from 'socket.io-client';
 import colorStyles from 'styles/Color.module.sass';
 import styles from 'styles/Play.module.sass';
 
@@ -26,6 +27,7 @@ const Play: NextPage = () => {
   const hiddenSlot = game ? currentRoundOfGame(game).hiddenSlot : undefined;
 
   // client related vars
+  const loadingText = useRef('Connecting...');
   const [roleSelection, setRoleSelection] = useState(true);
   const [selectedColor, selectColor] = useState<PinColor>();
   const editable = useRef(false);
@@ -87,13 +89,27 @@ const Play: NextPage = () => {
     updateGame();
   });
 
+  socketRef.current.on('disconnect', () => (loadingText.current = 'Connecting...'));
+
   // on browser load
   useEffect(() => {
     socketRef.current.connect();
   }, []);
   useEffect(() => {
-    if (router.query.room !== undefined && router.query.name !== undefined)
-      socketRef.current.on('connect', () => socketRef.current.emit('join room', String(router.query.room), String(router.query.name)));
+    function join() {
+      loadingText.current = 'Waiting for the Server...';
+      socketRef.current.emit('join room', String(router.query.room), String(router.query.name));
+    }
+
+    if (router.query.room !== undefined && router.query.name !== undefined) {
+      if (socketRef.current.connected) {
+        join();
+      } else {
+        socketRef.current.on('connect', () => {
+          join();
+        });
+      }
+    }
   }, [router.query]);
 
   function setRoleCallback(role: Roles) {
@@ -139,7 +155,7 @@ const Play: NextPage = () => {
 
   return (
     <div className={styles.fullHeight}>
-      {role ? (
+      {role && socketRef.current.connected ? (
         <>
           <Board game={game} setSecretCallback={setSecretCallback} setPinCallback={setPinCallback} role={role} setFeedbackCallback={setFeedbackCallback} />
           <ColorSelector
@@ -166,10 +182,10 @@ const Play: NextPage = () => {
             />
           </ColorSelector>
         </>
-      ) : roleSelection ? (
+      ) : roleSelection && socketRef.current.connected ? (
         <RoleSelector setRole={setRoleCallback} />
       ) : (
-        <p>Waiting for Server...</p>
+        <LoadingScreen text={loadingText.current} />
       )}
     </div>
   );
