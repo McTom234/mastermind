@@ -17,7 +17,7 @@ export class Server {
 	constructor (serverInst: ServerWithEvents) {
 		this.server = serverInst;
 		this.games = new Map();
-		Logger.getLogger().info('Server instance created...');
+		new Logger().info('Server instance created...');
 	}
 
 	public static getInstance (server?: ServerWithEvents): undefined | Server {
@@ -27,7 +27,7 @@ export class Server {
 	}
 
 	public listener (socket: Socket) {
-		Logger.getLogger().silly('Client connected', socket.id);
+		new Logger().silly('Client connected', socket.id);
 
 		socket.on('disconnect', () => Server.instance.onDisconnect(socket));
 
@@ -45,13 +45,13 @@ export class Server {
 	}
 
 	private onDisconnect (socket: Socket) {
-		Logger.getLogger().silly('Client disconnected', socket.id);
+		new Logger().silly('Client disconnected', socket.id);
 		if (socket.data.room) Server.instance.games.get(socket.data.room)?.round().removePlayer(socket);
 	}
 
 	private onJoinRoom (socket: Socket, room: string, name: string) {
 		const failJoin = () => {
-			Logger.getLogger().error('Socket tried to connected without room in request data.');
+			new Logger().error('Socket tried to connected without room in request data.');
 			return socket.emit('room error');
 		};
 
@@ -68,7 +68,7 @@ export class Server {
 		let game = Server.instance.games.get(room);
 		let round = game?.round();
 		if (!game) { // create room and game
-			Logger.getLogger().info('Create room', room);
+			new Logger().info('Create room', room);
 			game = new Game();
 			Server.instance.games.set(room, game);
 		} else if (round!.setter !== undefined) {
@@ -88,7 +88,7 @@ export class Server {
 		}
 
 		// player joins room
-		Logger.getLogger().info('Socket joins room', socket.id, room);
+		new Logger().info('Socket joins room', socket.id, room);
 		socket.join(room);
 
 		// set client data
@@ -133,14 +133,14 @@ export class Server {
 	private setPin (socket: Socket, prohibitedRole: Roles) {
 		if (socket.data.room === undefined || !Server.instance.games.has(socket.data.room)) {
 			socket.emit('room error');
-			Logger.getLogger().warn(socket.data.room);
+			new Logger().warn(socket.data.room);
 			return false;
 		}
 
 		const game: Game = Server.instance.games.get(socket.data.room)!;
 		if ((socket !== game.round().setter && socket !== game.round().guesser) || socket === game.round()[prohibitedRole]) {
 			socket.emit('room error');
-			Logger.getLogger()
+			new Logger()
 				.warn(socket === game.round().setter, socket === game.round().guesser, socket === game.round()[prohibitedRole]);
 			return false;
 		}
