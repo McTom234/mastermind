@@ -6,7 +6,7 @@ import { Logger } from './Logger';
 import { Server as GameServer, ServerWithEvents } from './Server';
 
 const port: number = parseInt(process.env.PORT || '3000', 10);
-const dev: boolean = process.env.NODE_ENV.trim() !== 'production';
+const dev: boolean = process.env.ENV?.trim() !== 'production';
 const nextApp = next({ dev });
 const nextHandler: NextApiHandler = nextApp.getRequestHandler();
 

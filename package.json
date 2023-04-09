@@ -2,18 +2,20 @@
   "name": "mastermind",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "server-build": "tsc -p server",
-    "server-start": "tsc -p server && node server/dist/express.js"
+    "server-start": "tsc -p server && node --enable-source-maps --experimental-specifier-resolution=node --loader ts-node/esm server/express.ts"
   },
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "date-fns": "^2.29.3",
+    "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "next": "^13.3.0",
     "react": "^18.2.0",
@@ -21,6 +23,7 @@
     "rotating-file-stream": "^3.1.0",
     "socket.io": "^4.6.1",
     "socket.io-client": "^4.6.1",
+    "ts-node": "^10.9.1",
     "tslog": "^4.8.2"
   },
   "devDependencies": {
