@@ -8,7 +8,7 @@ interface ButtonProps extends HTMLProps<HTMLButtonElement> {
 }
 
 const Button = forwardRef(({containerClass, ...props}: ButtonProps, ref: ForwardedRef<HTMLButtonElement>) => {
-    return <div className={cn(styles['container'], containerClass)}><button {...props}></button></div>;
+    return <div className={cn(styles['container'], containerClass)}><button ref={ref} {...props}></button></div>;
 })
 Button.displayName = 'Button'
 
