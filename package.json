@@ -77,7 +77,9 @@
       "next/core-web-vitals",
       "prettier"
     ],
-    "plugins": ["@typescript-eslint"]
+    "plugins": [
+      "@typescript-eslint"
+    ]
   },
   "prettier": {
     "printWidth": 160,

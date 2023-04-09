@@ -2,13 +2,13 @@ import React from 'react';
 import styles from '../styles/new/layouts/layout.module.scss';
 
 interface JoinPageLayoutProps {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }
 
 export default function JoinPageLayout({ children }: JoinPageLayoutProps) {
-    return (
-        <main className={styles['join']}>
-            <div className={styles['card']}>{children}</div>
-        </main>
-    );
+  return (
+    <main className={styles['join']}>
+      <div className={styles['card']}>{children}</div>
+    </main>
+  );
 }
