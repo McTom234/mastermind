@@ -15,25 +15,24 @@ import colorStyles from 'styles/Color.module.sass';
 import styles from 'styles/Play.module.sass';
 
 const Play: NextPage = () => {
-  const { query } = useRouter();
+  const router = useRouter();
 
   // socket instance
   const socketRef = useRef<Socket<ServerToClientEvents, ClientToServerEvents>>(io({ autoConnect: false }));
-  const socket = socketRef.current;
 
   // game related vars
   const [role, setRole] = useState<Roles>();
   const [game, setGame] = useState<ClientGame>();
+  const hiddenSlot = game ? currentRoundOfGame(game).hiddenSlot : undefined;
 
   // client related vars
   const [roleSelection, setRoleSelection] = useState(true);
   const [selectedColor, selectColor] = useState<PinColor>();
-  let editable = useRef(false);
-  let canFinish = useRef(false);
+  const editable = useRef(false);
+  const canFinish = useRef(false);
 
   if (game !== undefined) {
     const slot = currentPublicSlotOfGame(game);
-    const hiddenSlot = currentRoundOfGame(game).hiddenSlot;
 
     // editable
     if (role === Roles.GUESSER && slot.setPins) editable.current = true;
@@ -59,28 +58,30 @@ const Play: NextPage = () => {
     setGame(g as ClientGame);
   }
 
-  socket.on('room error', () => {
+  socketRef.current.on('room error', () => {
     console.error('server-side room error');
-    socket.disconnect();
-    window.location.href = window.location.origin;
+    socketRef.current.disconnect();
+    router.push('/join').catch(() => {
+      window.location.href = window.location.origin;
+    });
   });
-  socket.on('player joined', (name) => {
+  socketRef.current.on('player joined', (name) => {
     if (game === undefined) return;
     game.playerName = name;
     updateGame();
   });
-  socket.on('game data', (game) => {
+  socketRef.current.on('game data', (game) => {
     setGame(game);
   });
-  socket.on('role assignment', (role) => {
+  socketRef.current.on('role assignment', (role) => {
     setRole(role);
   });
-  socket.on('set pin', (pin, color) => {
+  socketRef.current.on('set pin', (pin, color) => {
     if (game === undefined) return;
     currentPublicSlotOfGame(game)[`pin${pin}`].color = color;
     updateGame();
   });
-  socket.on('set feedback', (pin, color) => {
+  socketRef.current.on('set feedback', (pin, color) => {
     if (game === undefined) return;
     currentPublicSlotOfGame(game).feedback[`pin${pin}`].color = color;
     updateGame();
@@ -88,22 +89,23 @@ const Play: NextPage = () => {
 
   // on browser load
   useEffect(() => {
-    socket.connect();
+    socketRef.current.connect();
   }, []);
   useEffect(() => {
-    if (query.room !== undefined && query.name !== undefined) socket.on('connect', () => socket.emit('join room', String(query.room), String(query.name)));
-  }, [query]);
+    if (router.query.room !== undefined && router.query.name !== undefined)
+      socketRef.current.on('connect', () => socketRef.current.emit('join room', String(router.query.room), String(router.query.name)));
+  }, [router.query]);
 
   function setRoleCallback(role: Roles) {
     if (role === Roles.GUESSER || role === Roles.SETTER) {
       setRoleSelection(false);
-      socket.emit('choose role', role);
+      socketRef.current.emit('choose role', role);
     }
   }
 
   function setPinCallback(pin: 1 | 2 | 3 | 4) {
     if (pin < 1 && pin > 4) return undefined;
-    socket.emit('set pin', pin, selectedColor);
+    socketRef.current.emit('set pin', pin, selectedColor);
     if (game === undefined) return undefined;
     currentPublicSlotOfGame(game)[`pin${pin}`].color = selectedColor;
     updateGame();
@@ -113,13 +115,13 @@ const Play: NextPage = () => {
   function setFeedbackCallback(pin: 1 | 2 | 3 | 4) {
     if (pin < 1 && pin > 4) return undefined;
     if (selectedColor !== 'white' && selectedColor !== 'red') {
-      socket.emit('set feedback', pin, undefined);
+      socketRef.current.emit('set feedback', pin, undefined);
       if (game === undefined) return undefined;
       currentPublicSlotOfGame(game).feedback[`pin${pin}`].color = undefined;
       updateGame();
       return undefined;
     }
-    socket.emit('set feedback', pin, selectedColor);
+    socketRef.current.emit('set feedback', pin, selectedColor);
     if (game === undefined) return undefined;
     currentPublicSlotOfGame(game).feedback[`pin${pin}`].color = selectedColor;
     updateGame();
@@ -128,9 +130,9 @@ const Play: NextPage = () => {
 
   function setSecretCallback(pin: 1 | 2 | 3 | 4) {
     if (pin < 1 && pin > 4) return undefined;
-    socket.emit('set secret', pin, selectedColor);
-    if (game === undefined || currentRoundOfGame(game).hiddenSlot === undefined) return undefined;
-    currentRoundOfGame(game).hiddenSlot![`pin${pin}`].color = selectedColor;
+    socketRef.current.emit('set secret', pin, selectedColor);
+    if (!game || !hiddenSlot) return undefined;
+    hiddenSlot[`pin${pin}`].color = selectedColor;
     updateGame();
     return selectedColor;
   }
@@ -143,7 +145,7 @@ const Play: NextPage = () => {
           <ColorSelector
             selectedColor={selectedColor}
             selectColor={selectColor}
-            feedbackOnly={!game || (role === 'setter' && currentRoundOfGame(game).hiddenSlot !== undefined && !currentRoundOfGame(game).hiddenSlot!.setPins)}
+            feedbackOnly={!game || (role === 'setter' && currentRoundOfGame(game).hiddenSlot !== undefined && !(hiddenSlot ? hiddenSlot.setPins : false))}
           >
             <FontAwesomeIcon
               className={`${colorStyles.colorSelectorButton} ${styles.confirm} ${
@@ -153,12 +155,12 @@ const Play: NextPage = () => {
               onClick={() => {
                 if (canFinish.current) {
                   if (game !== undefined) {
-                    if (currentRoundOfGame(game).hiddenSlot !== undefined) currentRoundOfGame(game).hiddenSlot!.setPins = false;
+                    if (hiddenSlot) hiddenSlot.setPins = false;
                     currentPublicSlotOfGame(game).setPins = false;
                     currentPublicSlotOfGame(game).setFeedback = false;
                     updateGame();
                   }
-                  socket.emit('finish turn');
+                  socketRef.current.emit('finish turn');
                 }
               }}
             />

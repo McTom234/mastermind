@@ -28,7 +28,7 @@ const JoinPage: NextPageWithLayout = () => {
           onClick={() => {
             if (roomInput.current?.value.length === 0) return;
 
-            router.push(router.route + '/' + roomInput.current?.value!).catch(console.error);
+            router.push(router.route + '/' + roomInput.current?.value).catch(console.error);
           }}
         >
           Raum beitreten
