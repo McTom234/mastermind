@@ -1,14 +1,14 @@
 import type { NextPage } from 'next';
 import Image from 'next/image';
 import Description from '../components/description';
-import Login from '../components/login';
 import styles from '../styles/Index.module.sass';
+import Link from "next/link";
 
 const Index: NextPage = () => {
 	return (
 		<div className={ styles.container }>
 			<Description />
-			<Login />
+			<Link href={'/join'} >Join or start a game now.</Link>
 
 			<footer className={ styles.footer }>
 				<a href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
