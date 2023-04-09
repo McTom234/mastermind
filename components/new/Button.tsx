@@ -1,6 +1,6 @@
 import { ForwardedRef, forwardRef, HTMLProps } from 'react';
-import styles from '../../styles/new/components/button.module.scss';
-import { cn } from '../../lib/helpers';
+import styles from 'styles/new/components/button.module.scss';
+import { cn } from 'lib/helpers';
 
 interface ButtonProps extends HTMLProps<HTMLButtonElement> {
   type?: 'button' | 'submit' | 'reset';

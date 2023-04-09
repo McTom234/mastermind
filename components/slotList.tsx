@@ -1,10 +1,10 @@
 import type { NextPage } from 'next';
-import { ClientGame } from '../server/models/Game';
-import { PinColor } from '../server/models/Pin';
-import { Roles } from '../server/SocketTypes';
-import styles from '../styles/SlotList.module.sass';
-import FeedbackSlot from './feedbackSlot';
-import { currentRoundOfGame } from './helpers';
+import { ClientGame } from 'server/models/Game';
+import { PinColor } from 'server/models/Pin';
+import { Roles } from 'server/SocketTypes';
+import styles from 'styles/SlotList.module.sass';
+import FeedbackSlot from 'components/feedbackSlot';
+import { currentRoundOfGame } from 'components/helpers';
 
 type SlotListPropsTypes = {
   game?: ClientGame;

@@ -1,8 +1,8 @@
-import JoinPageLayout from '../../layouts/JoinPageLayout';
-import Input from '../../components/new/Input';
-import Button from '../../components/new/Button';
-import styles from '../../styles/new/pages/join.module.scss';
-import { NextPageWithLayout } from '../_app';
+import JoinPageLayout from 'layouts/JoinPageLayout';
+import Input from 'components/new/Input';
+import Button from 'components/new/Button';
+import styles from 'styles/new/components/button.module.scss';
+import { NextPageWithLayout } from 'pages/_app';
 import { ReactElement, useRef } from 'react';
 import { useRouter } from 'next/router';
 

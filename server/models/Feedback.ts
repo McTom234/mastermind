@@ -1,4 +1,4 @@
-import { FeedbackPinColor, Pin } from './Pin';
+import { FeedbackPinColor, Pin } from 'server/models/Pin';
 
 export class Feedback {
 	pin1: Pin<FeedbackPinColor> = new Pin<FeedbackPinColor>();

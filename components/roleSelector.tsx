@@ -1,6 +1,8 @@
 import { NextPage } from 'next';
 import { useState } from 'react';
-import { Roles } from '../server/SocketTypes';
+import { Roles } from 'server/SocketTypes';
+import buttonStyles from 'styles/new/components/button.module.scss';
+import Button from 'components/new/Button';
 
 const RoleSelector: NextPage<{ setRole: (role: Roles) => void }> = ({ setRole }) => {
   const [visible, setVisible] = useState(true);

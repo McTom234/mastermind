@@ -1,7 +1,7 @@
-import { Feedback } from '../server/models/Feedback';
-import { ClientGame } from '../server/models/Game';
-import { ClientRound, Round } from '../server/models/Round';
-import { Slot as SlotModel } from '../server/models/Slot';
+import { Feedback } from 'server/models/Feedback';
+import { ClientGame } from 'server/models/Game';
+import { ClientRound, Round } from 'server/models/Round';
+import { Slot as SlotModel } from 'server/models/Slot';
 
 export function currentRoundOfGame (game: ClientGame) {
 	if (game.rounds.length === 0) game.rounds.push(ClientRound.fromRound(new Round(), ''));

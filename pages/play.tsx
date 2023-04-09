@@ -4,15 +4,15 @@ import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
-import Board from '../components/board';
-import ColorSelector from '../components/colorSelector';
-import { currentPublicSlotOfGame, currentRoundOfGame, pinsDefined } from '../components/helpers';
-import RoleSelector from '../components/roleSelector';
-import { ClientGame } from '../server/models/Game';
-import { PinColor } from '../server/models/Pin';
-import { ClientToServerEvents, Roles, ServerToClientEvents } from '../server/SocketTypes';
-import colorStyles from '../styles/Color.module.sass';
-import styles from '../styles/Play.module.sass';
+import Board from 'components/board';
+import ColorSelector from 'components/colorSelector';
+import { currentPublicSlotOfGame, currentRoundOfGame, pinsDefined } from 'components/helpers';
+import RoleSelector from 'components/roleSelector';
+import { ClientGame } from 'server/models/Game';
+import { PinColor } from 'server/models/Pin';
+import { ClientToServerEvents, Roles, ServerToClientEvents } from 'server/SocketTypes';
+import colorStyles from 'styles/Color.module.sass';
+import styles from 'styles/Play.module.sass';
 
 const Play: NextPage = () => {
   const { query } = useRouter();

@@ -1,8 +1,8 @@
 import type { NextPage } from 'next';
-import { PinColor } from '../server/models/Pin';
-import { Slot as SlotModel } from '../server/models/Slot';
-import styles from '../styles/Slot.module.sass';
-import Pin from './pin';
+import { PinColor } from 'server/models/Pin';
+import { Slot as SlotModel } from 'server/models/Slot';
+import styles from 'styles/Slot.module.sass';
+import Pin from 'components/pin';
 
 type SlotPropsTypes = {
 	slot?: SlotModel,

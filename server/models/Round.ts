@@ -1,6 +1,6 @@
-import { Socket } from '../Server';
-import { Roles } from '../SocketTypes';
-import { Slot } from './Slot';
+import { Socket } from 'server/Server';
+import { Roles } from 'server/SocketTypes';
+import { Slot } from 'server/models/Slot';
 
 export class Round {
 	setter?: Socket = undefined;

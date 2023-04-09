@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import Image from 'next/image';
-import Description from '../components/description';
-import styles from '../styles/Index.module.sass';
+import Description from 'components/description';
+import styles from 'styles/Index.module.sass';
 import Link from 'next/link';
 
 const Index: NextPage = () => {

@@ -3,7 +3,7 @@ import { createServer, Server as HttpServer } from 'http';
 import next, { NextApiHandler } from 'next';
 import { Server } from 'socket.io';
 import { Logger } from './Logger';
-import { Server as GameServer, ServerWithEvents } from './Server';
+import { Server as GameServer, ServerWithEvents } from 'server/Server';
 
 const port: number = parseInt(process.env.PORT || '3000', 10);
 const dev: boolean = process.env.ENV?.trim() !== 'production';

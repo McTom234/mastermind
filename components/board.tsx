@@ -1,13 +1,13 @@
 import type { NextPage } from 'next';
-import { ClientGame } from '../server/models/Game';
-import { PinColor } from '../server/models/Pin';
-import { Roles } from '../server/SocketTypes';
-import styles from '../styles/Board.module.sass';
-import slotStyles from '../styles/Slot.module.sass';
-import { currentRoundOfGame } from './helpers';
-import Slot from './slot';
-import SlotList from './slotList';
-import { cn } from '../lib/helpers';
+import { ClientGame } from 'server/models/Game';
+import { PinColor } from 'server/models/Pin';
+import { Roles } from 'server/SocketTypes';
+import styles from 'styles/Board.module.sass';
+import slotStyles from 'styles/Slot.module.sass';
+import { currentRoundOfGame } from 'components/helpers';
+import Slot from 'components/slot';
+import SlotList from 'components/slotList';
+import { cn } from 'lib/helpers';
 
 type BoardPropsTypes = {
   game?: ClientGame;

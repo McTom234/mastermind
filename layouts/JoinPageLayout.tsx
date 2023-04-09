@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../styles/new/layouts/layout.module.scss';
+import styles from 'styles/new/layouts/layout.module.scss';
 
 interface JoinPageLayoutProps {
   children: React.ReactNode;

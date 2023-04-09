@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
-import { PinColor } from '../server/models/Pin';
-import styles from '../styles/Pin.module.sass';
-import Color from './color';
+import { PinColor } from 'server/models/Pin';
+import styles from 'styles/Pin.module.sass';
+import Color from 'components/color';
 
 type PinPropsTypes = {
 	onClick: () => PinColor | undefined,

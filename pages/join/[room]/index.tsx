@@ -1,13 +1,13 @@
-import JoinPageLayout from '../../../layouts/JoinPageLayout';
-import Input from '../../../components/new/Input';
-import Button from '../../../components/new/Button';
-import styles from '../../../styles/new/pages/join.module.scss';
-import { NextPageWithLayout } from '../../_app';
+import JoinPageLayout from 'layouts/JoinPageLayout';
+import Input from 'components/new/Input';
+import Button from 'components/new/Button';
+import styles from 'styles/new/components/button.module.scss';
+import { NextPageWithLayout } from 'pages/_app';
 import { ReactElement } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Image from 'next/image';
-import pen from '../../../public/icons/pen.svg';
+import pen from 'public/icons/pen.svg';
 
 function EditLink() {
   return (

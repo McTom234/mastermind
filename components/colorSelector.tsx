@@ -1,8 +1,8 @@
 import type { NextPage } from 'next';
 import { ReactNode } from 'react';
-import { PinColor } from '../server/models/Pin';
-import styles from '../styles/ColorSelector.module.sass';
-import Color from './color';
+import { PinColor } from 'server/models/Pin';
+import styles from 'styles/ColorSelector.module.sass';
+import Color from 'components/color';
 
 type ColorSelectorPropsTypes = {
 	selectedColor?: PinColor,

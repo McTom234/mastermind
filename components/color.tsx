@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import { CSSProperties } from 'react';
-import { PinColor } from '../server/models/Pin';
-import styles from '../styles/Color.module.sass';
+import { PinColor } from 'server/models/Pin';
+import styles from 'styles/Color.module.sass';
 
 type ColorTypes = {
 	value?: PinColor,

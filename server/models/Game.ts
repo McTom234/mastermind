@@ -1,4 +1,4 @@
-import { ClientRound, Round } from './Round';
+import { ClientRound, Round } from 'server/models/Round';
 
 export class Game {
 	rounds: Round[] = [new Round()];

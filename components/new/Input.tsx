@@ -1,6 +1,6 @@
 import React, { ForwardedRef, forwardRef, HTMLProps, ReactNode } from 'react';
-import styles from '../../styles/new/components/input.module.scss';
-import { cn } from '../../lib/helpers';
+import styles from 'styles/new/components/input.module.scss';
+import { cn } from 'lib/helpers';
 
 interface InputProps extends HTMLProps<HTMLInputElement> {
   icon?: ReactNode;
