@@ -21,17 +21,17 @@ main {
     padding-right: 8px;
     padding-left: 8px;
     background: linear-gradient(
-                    45deg,
-                    variables.$primary calc(35% / 3),
-                    color.adjust(variables.$primary, $hue: 20) calc(80% / 3),
-                    color.adjust(variables.$primary, $hue: 30) calc(100% / 3),
-                    color.adjust(variables.$primary, $hue: 20) calc(150% / 3),
-                    variables.$primary calc(200% / 3),
-                    variables.$primary calc(235% / 3),
-                    color.adjust(variables.$primary, $hue: 20) calc(280% / 3),
-                    color.adjust(variables.$primary, $hue: 30) calc(300% / 3)
-    )
-    0 100%;
+        45deg,
+        variables.$primary calc(35% / 3),
+        color.adjust(variables.$primary, $hue: 20) calc(80% / 3),
+        color.adjust(variables.$primary, $hue: 30) calc(100% / 3),
+        color.adjust(variables.$primary, $hue: 20) calc(150% / 3),
+        variables.$primary calc(200% / 3),
+        variables.$primary calc(235% / 3),
+        color.adjust(variables.$primary, $hue: 20) calc(280% / 3),
+        color.adjust(variables.$primary, $hue: 30) calc(300% / 3)
+      )
+      0 100%;
     background-size: 300% 300%;
     animation: gradient 30s linear forwards infinite;
 

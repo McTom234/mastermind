@@ -2,18 +2,18 @@ html,
 body,
 #__next,
 .next-root {
-	height: 100%;
+  height: 100%;
 }
 
 body {
-	margin: 0;
-	font-size: 18px;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  font-size: 18px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 *,
 *::before,
 *::after {
-	box-sizing: border-box;
+  box-sizing: border-box;
 }

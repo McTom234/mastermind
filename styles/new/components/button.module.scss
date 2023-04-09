@@ -12,13 +12,13 @@
     border: 1px solid variables.$dark;
     border-radius: 6px;
     background: linear-gradient(
-                    90deg,
-                    variables.$primary,
-                    variables.$primary 25%,
-                    color.adjust(variables.$primary, $lightness: -20) 75%,
-                    color.adjust(variables.$primary, $lightness: -20)
-    )
-    0 0;
+        90deg,
+        variables.$primary,
+        variables.$primary 25%,
+        color.adjust(variables.$primary, $lightness: -20) 75%,
+        color.adjust(variables.$primary, $lightness: -20)
+      )
+      0 0;
     background-size: 400% 100%;
     color: white;
     outline-style: solid;
