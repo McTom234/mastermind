@@ -1,6 +1,6 @@
-import type { NextPage } from 'next';
+import {ComponentType} from "react";
 
-const Description: NextPage = () => {
+const Description: ComponentType = () => {
 	return (
 		<div>
 			<h1 style={ { marginTop: 0 } }>MasterMind</h1>

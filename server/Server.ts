@@ -52,6 +52,8 @@ export class Server {
   }
 
   private onJoinRoom(socket: Socket, room: string, name: string) {
+    console.log(socket, room, name)
+
     const failJoin = () => {
       new Logger().error('Socket tried to connected without room in request data.');
       return socket.emit('room error');
@@ -201,7 +203,7 @@ export class Server {
       socket.emit('room error');
       return false;
     }
-    
+
     if (socket !== game.round().guesser && socket !== game.round().setter) {
       socket.emit('room error');
       return false;

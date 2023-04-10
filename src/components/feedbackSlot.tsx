@@ -1,4 +1,4 @@
-import type { NextPage } from 'next';
+import {ComponentType} from "react";
 import { PinColor } from 'server/models/Pin';
 import { Slot as SlotModel } from 'server/models/Slot';
 import styles from 'src/styles/FeedbackSlot.module.sass';
@@ -14,7 +14,7 @@ type FeedbackSlotPropsTypes = {
 	editable: boolean
 }
 
-const FeedbackSlot: NextPage<FeedbackSlotPropsTypes> = (props) => {
+const FeedbackSlot: ComponentType<FeedbackSlotPropsTypes> = (props) => {
 	const editable = props.slot.setPins && props.editable;
 	const selectable = props.slot.setFeedback && !props.editable;
 	return (

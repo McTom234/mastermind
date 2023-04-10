@@ -1,4 +1,4 @@
-import type { NextPage } from 'next';
+import {ComponentType} from "react";
 import { ClientGame } from 'server/models/Game';
 import { PinColor } from 'server/models/Pin';
 import { Roles } from 'server/SocketTypes';
@@ -13,7 +13,7 @@ type SlotListPropsTypes = {
   setFeedbackPinCallback: (pin: 1 | 2 | 3 | 4) => PinColor | undefined;
 };
 
-const SlotList: NextPage<SlotListPropsTypes> = (props) => {
+const SlotList: ComponentType<SlotListPropsTypes> = (props) => {
   if (props.role === Roles.SETTER)
     return (
       <div className={styles.container}>

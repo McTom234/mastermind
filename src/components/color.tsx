@@ -1,5 +1,4 @@
-import type { NextPage } from 'next';
-import { CSSProperties } from 'react';
+import {ComponentType, CSSProperties} from 'react';
 import { PinColor } from 'server/models/Pin';
 import styles from 'src/styles/Color.module.sass';
 
@@ -12,7 +11,7 @@ type ColorTypes = {
 	style?: CSSProperties
 }
 
-const Color: NextPage<ColorTypes> = (props) => {
+const Color: ComponentType<ColorTypes> = (props) => {
 	const noSelect = props.selectable !== undefined && !props.selectable;
 	if (props.value !== undefined) return (
 		<div className={ `${ styles.colorSelectorButton } ${ noSelect ? styles.noSelect : '' } ${ props.classNames ?? '' }` }

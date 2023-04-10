@@ -1,4 +1,4 @@
-import type { NextPage } from 'next';
+import {ComponentType} from "react";
 import { PinColor } from 'server/models/Pin';
 import { Slot as SlotModel } from 'server/models/Slot';
 import styles from 'src/styles/Slot.module.sass';
@@ -11,7 +11,7 @@ type SlotPropsTypes = {
 	editable: boolean
 }
 
-const Slot: NextPage<SlotPropsTypes> = (props) => {
+const Slot: ComponentType<SlotPropsTypes> = (props) => {
 	if (props.slot === undefined) return <></>;
 
 	const editable = props.slot.setPins && props.editable;
