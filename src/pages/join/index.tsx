@@ -1,10 +1,10 @@
-import JoinPageLayout from 'src/layouts/JoinPageLayout';
-import Input from 'src/components/new/atoms/Input';
-import Button from 'src/components/new/atoms/Button';
-import styles from 'src/styles/new/components/atoms/button.module.scss';
-import { NextPageWithLayout } from 'src/pages/_app';
-import {ReactElement, useCallback, useEffect, useRef} from 'react';
 import { useRouter } from 'next/router';
+import { ReactElement, useRef } from 'react';
+import Button from 'src/components/new/atoms/Button';
+import Input from 'src/components/new/atoms/Input';
+import JoinPageLayout from 'src/layouts/JoinPageLayout';
+import { NextPageWithLayout } from 'src/pages/_app';
+import styles from 'src/styles/new/components/atoms/button.module.scss';
 
 const JoinPage: NextPageWithLayout = () => {
   const router = useRouter();
@@ -19,8 +19,8 @@ const JoinPage: NextPageWithLayout = () => {
             button.current?.click();
           }
         }}
-        label="Raum"
-        autoFocus
+        label="Room"
+        autoFocus={true}
         ref={roomInput}
       />
       <div className={styles['button-row']}>
@@ -32,7 +32,7 @@ const JoinPage: NextPageWithLayout = () => {
             router.push(router.route + '/' + roomInput.current?.value).catch(console.error);
           }}
         >
-          Raum beitreten
+          Choose name
         </Button>
       </div>
     </>
