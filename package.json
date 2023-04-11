@@ -31,7 +31,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "server": "tsc -p server && node server/dist/express.js"
+    "server": "pnpm run server:build && pnpm run server:start",
+    "server:build": "tsc -p server",
+    "server:start": "node server/dist/express.js",
+    "server:watch": "nodemon"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
@@ -60,6 +63,7 @@
     "eslint": "^8.38.0",
     "eslint-config-next": "^13.3.0",
     "eslint-config-prettier": "^8.8.0",
+    "nodemon": "^2.0.22",
     "stylelint": "^15.4.0",
     "stylelint-config-hudochenkov": "^9.0.0",
     "stylelint-config-standard-scss": "^7.0.1",
