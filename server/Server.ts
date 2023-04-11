@@ -90,7 +90,7 @@ export class Server {
 
       round.guesser.emit('player joined', name);
     } else {
-      socket.emit('room error')
+      socket.emit('room error');
     }
 
     // player joins room
@@ -201,7 +201,7 @@ export class Server {
       socket.emit('room error');
       return false;
     }
-    
+
     if (socket !== game.round().guesser && socket !== game.round().setter) {
       socket.emit('room error');
       return false;

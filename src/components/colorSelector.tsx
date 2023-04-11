@@ -1,6 +1,5 @@
 import Color from 'src/components/color';
-import type { NextPage } from 'next';
-import { ReactNode } from 'react';
+import { ComponentType, ReactNode } from 'react';
 import { PinColor } from 'server/models/Pin';
 import styles from 'src/styles/ColorSelector.module.sass';
 
@@ -11,7 +10,7 @@ type ColorSelectorPropsTypes = {
   children: ReactNode;
 };
 
-const ColorSelector: NextPage<ColorSelectorPropsTypes> = ({ selectedColor, selectColor, children, feedbackOnly = false }) => {
+const ColorSelector: ComponentType<ColorSelectorPropsTypes> = ({ selectedColor, selectColor, children, feedbackOnly = false }) => {
   return (
     <div className={styles.scrollContainer}>
       <div className={styles.buttonContainer}>

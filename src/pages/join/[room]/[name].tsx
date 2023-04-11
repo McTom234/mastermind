@@ -1,4 +1,4 @@
-import { GetServerSideProps } from 'next';
+import { GetServerSideProps, NextPage } from 'next';
 
 export const getServerSideProps: GetServerSideProps<never, { room: string; name: string }> = async ({ params }) => {
   if (!params)
@@ -17,6 +17,8 @@ export const getServerSideProps: GetServerSideProps<never, { room: string; name:
   };
 };
 
-export default function Page() {
+const Page: NextPage = () => {
   return <></>;
-}
+};
+
+export default Page;

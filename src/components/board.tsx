@@ -1,4 +1,4 @@
-import type { NextPage } from 'next';
+import { ComponentType } from 'react';
 import { ClientGame } from 'server/models/Game';
 import { PinColor } from 'server/models/Pin';
 import { Roles } from 'server/SocketTypes';
@@ -17,7 +17,7 @@ type BoardPropsTypes = {
   setFeedbackCallback: (pin: 1 | 2 | 3 | 4) => PinColor | undefined;
 };
 
-const Board: NextPage<BoardPropsTypes> = (props) => {
+const Board: ComponentType<BoardPropsTypes> = (props) => {
   return (
     <div className={styles.container}>
       <SlotList game={props.game} role={props.role} setPinCallback={props.setPinCallback} setFeedbackPinCallback={props.setFeedbackCallback} />
